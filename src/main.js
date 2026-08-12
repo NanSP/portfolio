@@ -8,6 +8,10 @@ const resetButton = document.querySelector("#cube-reset");
 const guideToggle = document.querySelector("#cube-guide-toggle");
 const guidePanel = document.querySelector("#cube-guide");
 const statusLabel = document.querySelector("#cube-status");
+const carouselTrack = document.querySelector("#professional-carousel-track");
+const carouselPrev = document.querySelector("#professional-carousel-prev");
+const carouselNext = document.querySelector("#professional-carousel-next");
+const carouselDots = document.querySelector("#professional-carousel-dots");
 
 if (canvas && stage) {
   const FACE_COLORS = {
@@ -681,4 +685,69 @@ if (canvas && stage) {
   setGuideOpen(false);
   scrambleCube();
   animate();
+}
+
+if (carouselTrack && carouselDots) {
+  const slides = Array.from(carouselTrack.querySelectorAll(".carousel__slide"));
+  const AUTOPLAY_MS = 30000;
+  let currentSlide = 0;
+  let autoplayId = null;
+
+  function renderCarousel() {
+    carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    Array.from(carouselDots.children).forEach((dot, index) => {
+      dot.classList.toggle("is-active", index === currentSlide);
+      dot.setAttribute("aria-current", index === currentSlide ? "true" : "false");
+    });
+  }
+
+  function goToSlide(index) {
+    currentSlide = (index + slides.length) % slides.length;
+    renderCarousel();
+  }
+
+  function restartAutoplay() {
+    if (autoplayId) {
+      window.clearInterval(autoplayId);
+    }
+
+    autoplayId = window.setInterval(() => {
+      goToSlide(currentSlide + 1);
+    }, AUTOPLAY_MS);
+  }
+
+  slides.forEach((_, index) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "carousel__dot";
+    dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
+    dot.addEventListener("click", () => {
+      goToSlide(index);
+      restartAutoplay();
+    });
+    carouselDots.appendChild(dot);
+  });
+
+  carouselPrev?.addEventListener("click", () => {
+    goToSlide(currentSlide - 1);
+    restartAutoplay();
+  });
+
+  carouselNext?.addEventListener("click", () => {
+    goToSlide(currentSlide + 1);
+    restartAutoplay();
+  });
+
+  carouselTrack.addEventListener("pointerenter", () => {
+    if (autoplayId) {
+      window.clearInterval(autoplayId);
+      autoplayId = null;
+    }
+  });
+
+  carouselTrack.addEventListener("pointerleave", restartAutoplay);
+
+  renderCarousel();
+  restartAutoplay();
 }
