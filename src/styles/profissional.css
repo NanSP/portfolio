@@ -4,28 +4,131 @@
 }
 
 .carousel {
+  width: min(100%, 980px);
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  gap: 18px;
 }
 
-.slide {
-  min-height: 220px;
+.carousel__viewport {
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.04);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.18);
+}
+
+.carousel__track {
+  display: flex;
+  transition: transform 0.55s ease;
+  will-change: transform;
+}
+
+.carousel__slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.carousel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.carousel__slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 32%, rgba(0, 0, 0, 0.62) 100%);
+}
+
+.carousel__slide:hover img {
+  transform: scale(1.03);
+}
+
+.carousel__caption {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 20px;
+  z-index: 1;
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+
+.carousel__controls {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  gap: 16px;
+}
+
+.carousel__button {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f5f5f5;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.carousel__button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.carousel__dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.carousel__dot {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.carousel__dot.is-active {
+  background: #ffffff;
+  transform: scale(1.15);
 }
 
 @media (max-width: 640px) {
   .carousel {
-    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  .slide {
-    min-height: 180px;
+  .carousel__viewport {
+    border-radius: 22px;
+  }
+
+  .carousel__caption {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    font-size: 1.05rem;
+  }
+
+  .carousel__controls {
+    gap: 12px;
+    flex-wrap: wrap;
   }
 }
