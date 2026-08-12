@@ -1,52 +1,83 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>portfolio</title>
-    <link rel="stylesheet" href="/src/style.css" />
-  </head>
-  <body>
-    <div class="app">
-      <header class="header">
-        <a href="#" class="logo">Hernandes Santos Pereira</a>
 
-        <nav class="nav">
-          <a href="#home">Home</a>
-          <a href="#profissional">Profissional</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>portfolio</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
 
-      <main class="hero" id="home">
-        <section class="hero-content">
-          <h1 class="hero-title">
-            <span>Hello,</span>
-            <span>welcome to My Portfolio!</span>
-          </h1>
+<body>
+  <div class="app">
+    <header class="header">
+      <a href="#" class="logo">Hernandes Santos Pereira</a>
 
-          <p class="hero-description">
-            I'm Hernandes, a Software Engineering student at Universidade do
-            Estado da Bahia
-          </p>
+      <nav class="nav">
+        <a href="#home">Home</a>
+        <a href="#profissional">Profissional</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
 
-          <p class="hero-text">
-            Learn more about me here and feel free to contact me.
-          </p>
+    <main class="hero" id="home">
+      <section class="hero-content">
+        <h1 class="hero-title">
+          <span>Hello,</span>
+          <span>welcome to My Portfolio!</span>
+        </h1>
 
-          <a href="#contact" class="hero-button">Contact</a>
-        </section>
+        <p class="hero-description">
+          I'm Hernandes, a Software Engineering student at Universidade do
+          Estado da Bahia
+        </p>
 
-        <section class="hero-image">
+        <p class="hero-text">
+          Learn more about me here and feel free to contact me.
+        </p>
+
+        <a href="#contact" class="hero-button">Contact</a>
+      </section>
+
+      <section class="hero-image">
+        <div class="hero-image__portrait">
           <div class="image-glow"></div>
-          <img
-            src="/profile-photo.jpg"
-            alt="Foto de Hernandes Santos Pereira"
-          />
+          <img src="/profile-photo.jpg" alt="Foto de Hernandes Santos Pereira" />
+        </div>
+        <section class="hero-cube" aria-labelledby="cube-invite">
+          <p class="hero-cube__invite" id="cube-invite">Want a quick challenge? Try solving the cube.</p>
+          <div class="cube-stage" id="cube-stage">
+            <div class="cube-stage__glow" aria-hidden="true"></div>
+            <button class="cube-stage__guide-toggle" id="cube-guide-toggle" type="button" aria-expanded="false"
+              aria-controls="cube-guide" aria-label="Show cube guide">
+              ?
+            </button>
+            <div class="cube-stage__guide" id="cube-guide" hidden aria-live="polite">
+              <p class="cube-stage__guide-title">How to play</p>
+              <p>Drag outside the cube to orbit the camera.</p>
+              <p>Swipe across a face to rotate that layer.</p>
+              <p>Use Scramble to mix it and Reset to return to the start.</p>
+            </div>
+            <canvas class="cube-stage__canvas" id="cube-canvas" aria-label="Interactive 3D Rubik's cube"></canvas>
+            <p class="cube-stage__status" id="cube-status" aria-live="polite"></p>
+            <div class="cube-stage__controls">
+              <button class="cube-stage__button" id="cube-scramble" type="button">
+                Scramble
+              </button>
+              <button class="cube-stage__button" id="cube-solve" type="button">
+                Solve
+              </button>
+              <button class="cube-stage__button cube-stage__button--ghost" id="cube-reset" type="button">
+                Reset
+              </button>
+            </div>
+          </div>
         </section>
-      </main>
-    </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
