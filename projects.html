@@ -23,17 +23,56 @@
     </header>
 
     <main class="page-main">
-      <section class="page-shell page-shell--projects">
+      <section class="page-shell page-shell--professional">
         <h1 class="page-title">Projects</h1>
-        <p class="page-copy">This page is ready for featured builds, screenshots, and technical case studies.</p>
+        <p class="professional-text">A quick look at some project snapshots. Each slide can open a dedicated project
+          link.</p>
+        <section class="carousel" aria-label="Professional projects carousel">
+          <div class="carousel__viewport">
+            <div class="carousel__track" id="professional-carousel-track">
+              <a class="carousel__slide" href="https://github.com/NanSP/AZ_ERP" target="_blank" rel="noreferrer"
+                aria-label="Open AZ-ERP project">
+                <img src="./src/assets/projects/AZ-ERP/tela_home.png" alt="AZ-ERP project home screen" />
+                <span class="carousel__caption">AZ-ERP</span>
+              </a>
 
-        <section class="projects-grid">
-          <article class="project-card"></article>
-          <article class="project-card"></article>
+              <a class="carousel__slide" href="https://github.com/NanSP/tomagoshi_ESP32" target="_blank"
+                rel="noreferrer" aria-label="Open Tomagoshi ESP32 project">
+                <img src="./src/assets/projects/tomagoshi_ESP32/tomagoshi_v3.jpeg"
+                  alt="Tomagoshi ESP32 project preview" />
+                <span class="carousel__caption">Tomagoshi ESP32</span>
+              </a>
+
+              <a class="carousel__slide" href="https://github.com/NanSP/GameProject" target="_blank" rel="noreferrer"
+                aria-label="Java game">
+                <img src="./src/assets/projects/Reward_hunter/reward_hunter.jpg" alt="Reward Hunter project preview" />
+                <span class="carousel__caption">Reward Hunter - Java Game</span>
+              </a>
+
+              <a class="carousel__slide" href="https://github.com/petcau/ProjetoBrinqueAprenda" target="_blank"
+                rel="noreferrer" aria-label="Projeto BrinqueAprenda">
+                <img src="./src/assets/projects/BrinqueAprenda/brinque_aprenda.jpg"
+                  alt="Projeto BrinqueAprenda project preview" />
+                <span class="carousel__caption">Projeto BrinqueAprenda</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="carousel__controls">
+            <button class="carousel__button" id="professional-carousel-prev" type="button" aria-label="Previous slide">
+              Prev
+            </button>
+            <div class="carousel__dots" id="professional-carousel-dots" aria-label="Carousel navigation"></div>
+            <button class="carousel__button" id="professional-carousel-next" type="button" aria-label="Next slide">
+              Next
+            </button>
+          </div>
         </section>
       </section>
     </main>
   </div>
+
+  <script type="module" src="./src/main.js"></script>
 </body>
 
 </html>
