@@ -5,7 +5,7 @@
   grid-template-columns: 1.25fr 0.75fr;
   align-items: start;
   gap: 20px;
-  padding: 90px 10px 50px;
+  padding: 50px 10px 50px;
 }
 
 .hero-content {
@@ -160,7 +160,7 @@
   line-height: 1.35;
 }
 
-.cube-stage__guide p + p {
+.cube-stage__guide p+p {
   margin-top: 6px;
 }
 

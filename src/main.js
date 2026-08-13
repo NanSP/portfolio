@@ -689,7 +689,7 @@ if (canvas && stage) {
 
 if (carouselTrack && carouselDots) {
   const slides = Array.from(carouselTrack.querySelectorAll(".carousel__slide"));
-  const AUTOPLAY_MS = 30000;
+  const AUTOPLAY_MS = 10000;
   let currentSlide = 0;
   let autoplayId = null;
 
