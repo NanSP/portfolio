@@ -12,7 +12,7 @@
 <body data-page-title-key="meta.title.home">
   <div class="app">
     <header class="header">
-      <a href="#" class="logo">Hernandes Santos Pereira</a>
+      <a href="./index.html" class="logo">Hernandes Santos Pereira</a>
 
       <div class="header-actions">
         <nav class="nav">
@@ -22,13 +22,8 @@
           <a href="./contact.html" data-i18n="nav.contact">Contact</a>
         </nav>
 
-        <button
-          class="lang-toggle"
-          id="lang-toggle"
-          type="button"
-          aria-label="Switch to Brazilian Portuguese"
-          data-i18n-aria-label="lang.toggleAria"
-        >
+        <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch to Brazilian Portuguese"
+          data-i18n-aria-label="lang.toggleAria">
           <span class="lang-toggle__flag" aria-hidden="true">🇧🇷</span>
           <span class="lang-toggle__label" data-i18n="lang.toggleLabel">PT-BR</span>
         </button>
@@ -57,14 +52,11 @@
       <section class="hero-image">
         <div class="hero-image__portrait">
           <div class="image-glow"></div>
-          <img
-            src="/profile-photo.jpg"
-            alt="Portrait of Hernandes Santos Pereira"
-            data-i18n-alt="home.portraitAlt"
-          />
+          <img src="/profile-photo.jpg" alt="Portrait of Hernandes Santos Pereira" data-i18n-alt="home.portraitAlt" />
         </div>
         <section class="hero-cube" aria-labelledby="cube-invite">
-          <p class="hero-cube__invite" id="cube-invite" data-i18n="cube.invite">Want a quick challenge? Try solving the cube.</p>
+          <p class="hero-cube__invite" id="cube-invite" data-i18n="cube.invite">Want a quick challenge? Try solving the
+            cube.</p>
           <div class="cube-stage" id="cube-stage">
             <div class="cube-stage__glow" aria-hidden="true"></div>
             <button class="cube-stage__guide-toggle" id="cube-guide-toggle" type="button" aria-expanded="false"
@@ -77,7 +69,8 @@
               <p data-i18n="cube.guideLine2">Swipe across a face to rotate that layer.</p>
               <p data-i18n="cube.guideLine3">Use Scramble to mix it and Reset to return to the start.</p>
             </div>
-            <canvas class="cube-stage__canvas" id="cube-canvas" aria-label="Interactive 3D Rubik's cube" data-i18n-aria-label="cube.canvasAria"></canvas>
+            <canvas class="cube-stage__canvas" id="cube-canvas" aria-label="Interactive 3D Rubik's cube"
+              data-i18n-aria-label="cube.canvasAria"></canvas>
             <p class="cube-stage__status" id="cube-status" aria-live="polite"></p>
             <div class="cube-stage__controls">
               <button class="cube-stage__button" id="cube-scramble" type="button" data-i18n="cube.scramble">
@@ -86,7 +79,8 @@
               <button class="cube-stage__button" id="cube-solve" type="button" data-i18n="cube.solve">
                 Solve
               </button>
-              <button class="cube-stage__button cube-stage__button--ghost" id="cube-reset" type="button" data-i18n="cube.reset">
+              <button class="cube-stage__button cube-stage__button--ghost" id="cube-reset" type="button"
+                data-i18n="cube.reset">
                 Reset
               </button>
             </div>
