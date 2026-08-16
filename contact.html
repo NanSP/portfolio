@@ -9,27 +9,40 @@
   <link rel="stylesheet" href="./src/styles/contact.css" />
 </head>
 
-<body>
+<body data-page-title-key="meta.title.contact">
   <div class="app">
     <header class="header">
       <a href="./index.html" class="logo">Hernandes Santos Pereira</a>
 
-      <nav class="nav">
-        <a href="./index.html">Home</a>
-        <a href="./professional.html">Professional</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-      </nav>
+      <div class="header-actions">
+        <nav class="nav">
+          <a href="./index.html" data-i18n="nav.home">Home</a>
+          <a href="./professional.html" data-i18n="nav.professional">Professional</a>
+          <a href="./projects.html" data-i18n="nav.projects">Projects</a>
+          <a href="./contact.html" data-i18n="nav.contact">Contact</a>
+        </nav>
+
+        <button
+          class="lang-toggle"
+          id="lang-toggle"
+          type="button"
+          aria-label="Switch to Brazilian Portuguese"
+          data-i18n-aria-label="lang.toggleAria"
+        >
+          <span class="lang-toggle__flag" aria-hidden="true">🇧🇷</span>
+          <span class="lang-toggle__label" data-i18n="lang.toggleLabel">PT-BR</span>
+        </button>
+      </div>
     </header>
 
     <main class="page-main">
       <section class="page-shell page-shell--contact">
-        <h1 class="page-title">Contact</h1>
-        <p class="page-copy">Choose a channel below. You can replace each placeholder link with your real profile later.
+        <h1 class="page-title" data-i18n="contact.title">Contact</h1>
+        <p class="page-copy" data-i18n="contact.copy">Choose a channel below. You can replace each placeholder link with your real profile later.
         </p>
         <section class="contact-panel">
-          <div class="contact-links" aria-label="Contact links">
-            <a class="contact-link" href="https://wa.me/5575982592943" target="_blank" aria-label="WhatsApp">
+          <div class="contact-links" aria-label="Contact links" data-i18n-aria-label="contact.linksAria">
+            <a class="contact-link" href="https://wa.me/5575982592943" target="_blank" aria-label="WhatsApp" data-i18n-aria-label="contact.whatsappAria">
               <span class="contact-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -40,7 +53,7 @@
             </a>
 
             <a class="contact-link" href="https://linkedin.com/in/hernandes-pereira" target="_blank"
-              rel="noreferrer noopener" aria-label="LinkedIn">
+              rel="noreferrer noopener" aria-label="LinkedIn" data-i18n-aria-label="contact.linkedinAria">
               <span class="contact-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -51,7 +64,7 @@
             </a>
 
             <a class="contact-link" href="https://github.com/NanSP" target="_blank" rel="noreferrer noopener"
-              aria-label="GitHub">
+              aria-label="GitHub" data-i18n-aria-label="contact.githubAria">
               <span class="contact-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -61,7 +74,7 @@
               <span class="contact-link__label">GitHub</span>
             </a>
 
-            <a class="contact-link" href="mailto:hpereira23@outlook.com" target="_blank" aria-label="Email">
+            <a class="contact-link" href="mailto:hpereira23@outlook.com" target="_blank" aria-label="Email" data-i18n-aria-label="contact.emailAria">
               <span class="contact-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -75,6 +88,7 @@
       </section>
     </main>
   </div>
+  <script type="module" src="./src/main.js"></script>
 </body>
 
 </html>

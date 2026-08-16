@@ -1,5 +1,248 @@
 import * as THREE from "three";
 
+const LANG_STORAGE_KEY = "portfolio-language";
+const DEFAULT_LANGUAGE = "en";
+const SUPPORTED_LANGUAGES = ["en", "pt-BR"];
+const langToggle = document.querySelector("#lang-toggle");
+const langToggleFlag = document.querySelector(".lang-toggle__flag");
+const pageTitleKey = document.body.dataset.pageTitleKey;
+
+const translations = {
+  en: {
+    "meta.title.home": "Portfolio",
+    "meta.title.professional": "Professional",
+    "meta.title.projects": "Projects",
+    "meta.title.contact": "Contact",
+    "nav.home": "Home",
+    "nav.professional": "Professional",
+    "nav.projects": "Projects",
+    "nav.contact": "Contact",
+    "lang.toggleLabel": "PT-BR",
+    "lang.toggleAria": "Switch to Brazilian Portuguese",
+    "home.heroTitleLine1": "Hello,",
+    "home.heroTitleLine2": "welcome to My Portfolio!",
+    "home.heroDescription":
+      "I'm Hernandes, a Software Engineering student at Universidade do Estado da Bahia",
+    "home.heroText": "Learn more about me here and feel free to contact me.",
+    "home.contactButton": "Contact",
+    "home.portraitAlt": "Portrait of Hernandes Santos Pereira",
+    "cube.invite": "Want a quick challenge? Try solving the cube.",
+    "cube.guideToggleAria": "Show cube guide",
+    "cube.guideTitle": "How to play",
+    "cube.guideLine1": "Drag outside the cube to orbit the camera.",
+    "cube.guideLine2": "Swipe across a face to rotate that layer.",
+    "cube.guideLine3": "Use Scramble to mix it and Reset to return to the start.",
+    "cube.canvasAria": "Interactive 3D Rubik's cube",
+    "cube.scramble": "Scramble",
+    "cube.solve": "Solve",
+    "cube.reset": "Reset",
+    "cube.solved": "Solved. Want to scramble and try again?",
+    "professional.title": "Professional",
+    "professional.copy":
+      "My professional experiences and administrative support background.",
+    "professional.download": "Download PDF Resume",
+    "professional.job1.title": "IT Support",
+    "professional.job1.company": "UNEB Campus II - Alagoinhas",
+    "professional.job1.period": "July 2024 - Present",
+    "professional.job1.description":
+      "Based at Campus II of the State University of Bahia in Alagoinhas, working in IT support with technical solutions for computers and networks, preventive and corrective computer maintenance, computer assembly, and user support.",
+    "professional.job2.title": "Enumerator",
+    "professional.job2.company": "2022 Demographic Census | IBGE",
+    "professional.job2.period": "July 2022 - December 2022",
+    "professional.job2.description":
+      "Interviewed residents in their homes, confirmed and corrected street information, and registered new households and establishments in the census system.",
+    "professional.job3.title": "Espro Apprentice",
+    "professional.job3.company": "Partner Company: Cinemark Brasil S.A.",
+    "professional.job3.period": "December 17, 2018 - March 16, 2020",
+    "professional.job3.description":
+      "Supported uniform control and distribution for national units, admission and termination processes, and general administrative routines.",
+    "projects.title": "Projects",
+    "projects.copy":
+      "A quick look at some project snapshots. Each slide can open a dedicated project link.",
+    "projects.carouselAria": "Professional projects carousel",
+    "projects.azErpAria": "Open AZ-ERP project",
+    "projects.azErpAlt": "AZ-ERP project home screen",
+    "projects.tomagoshiAria": "Open Tomagoshi ESP32 project",
+    "projects.tomagoshiAlt": "Tomagoshi ESP32 project preview",
+    "projects.rewardHunterAria": "Open Reward Hunter project",
+    "projects.rewardHunterAlt": "Reward Hunter project preview",
+    "projects.brinqueAria": "Open Projeto BrinqueAprenda",
+    "projects.brinqueAlt": "Projeto BrinqueAprenda project preview",
+    "projects.triagemAria": "Open Triagem Inteligente project",
+    "projects.triagemAlt": "Triagem Inteligente project preview",
+    "projects.umbrelButtonAria": "Open Umbrel project details",
+    "projects.umbrelAlt": "Umbrel self-hosting server preview",
+    "projects.umbrelCaption": "Self-hosting server Umbrel",
+    "projects.prev": "Prev",
+    "projects.prevAria": "Previous slide",
+    "projects.next": "Next",
+    "projects.nextAria": "Next slide",
+    "projects.dotsAria": "Carousel navigation",
+    "projects.modalClose": "Close",
+    "projects.modalCloseAria": "Close project details",
+    "projects.umbrelTitle": "Umbrel",
+    "projects.umbrelDescription":
+      "This is my own server built with the Umbrel Linux distribution, which turns a computer into a server capable of hosting services such as music, movie, and TV streaming, as well as file storage similar to Google Drive. This was a very interesting project in many ways, and I applied a wide range of knowledge I had acquired.<br><br>I started by refurbishing an old notebook used by my family, a Samsung RF511, and it was truly old. It had a problem with the DC power jack connector. After removing it and replacing it with a new one, I ran into another issue, a known chronic problem with this model: the Nec Tokin capacitor. I replaced it with tantalum capacitors. At this stage, I used my technical knowledge from start to finish, from diagnosing the problems and identifying replacement components to carrying out the necessary soldering work.<br><br>After this first stage, I installed and configured Umbrel. The services currently hosted are:<br>- Jellyfin: a streaming application that already includes several movies and TV shows<br>- Nextcloud: a cloud storage service for files<br><br>I can also remotely access both the hosted services and the server itself through the Tailscale VPN.<br><br>This is a personal project that required a great deal of dedication and taught me a lot about how the internet and digital services work. Managing my own platform and services is a major challenge, but it has definitely been, and still is, a lot of fun.",
+    "contact.title": "Contact",
+    "contact.copy":
+      "Choose a channel below. You can replace each placeholder link with your real profile later.",
+    "contact.linksAria": "Contact links",
+    "contact.whatsappAria": "Open WhatsApp",
+    "contact.linkedinAria": "Open LinkedIn",
+    "contact.githubAria": "Open GitHub",
+    "contact.emailAria": "Send email",
+  },
+  "pt-BR": {
+    "meta.title.home": "Portfólio",
+    "meta.title.professional": "Profissional",
+    "meta.title.projects": "Projetos",
+    "meta.title.contact": "Contato",
+    "nav.home": "Home",
+    "nav.professional": "Profissional",
+    "nav.projects": "Projetos",
+    "nav.contact": "Contato",
+    "lang.toggleLabel": "EN",
+    "lang.toggleAria": "Mudar para inglês",
+    "home.heroTitleLine1": "Olá,",
+    "home.heroTitleLine2": "bem-vindo ao meu portfólio!",
+    "home.heroDescription":
+      "Sou Hernandes, estudante de Engenharia de Software da Universidade do Estado da Bahia",
+    "home.heroText": "Saiba mais sobre mim aqui e sinta-se à vontade para entrar em contato.",
+    "home.contactButton": "Contato",
+    "home.portraitAlt": "Retrato de Hernandes Santos Pereira",
+    "cube.invite": "Quer um desafio rápido? Tente resolver o cubo.",
+    "cube.guideToggleAria": "Mostrar guia do cubo",
+    "cube.guideTitle": "Como jogar",
+    "cube.guideLine1": "Arraste fora do cubo para orbitar a câmera.",
+    "cube.guideLine2": "Deslize sobre uma face para girar aquela camada.",
+    "cube.guideLine3": "Use Embaralhar para misturar e Resetar para voltar ao início.",
+    "cube.canvasAria": "Cubo mágico 3D interativo",
+    "cube.scramble": "Embaralhar",
+    "cube.solve": "Resolver",
+    "cube.reset": "Resetar",
+    "cube.solved": "Resolvido. Quer embaralhar e tentar novamente?",
+    "professional.title": "Profissional",
+    "professional.copy":
+      "Minhas experiências profissionais e minha atuação com suporte administrativo.",
+    "professional.download": "Baixar currículo em PDF",
+    "professional.job1.title": "Suporte de TI",
+    "professional.job1.company": "UNEB Campus II - Alagoinhas",
+    "professional.job1.period": "Julho de 2024 - Atualmente",
+    "professional.job1.description":
+      "Lotado no Campus II da Universidade do Estado da Bahia, em Alagoinhas, atuando em suporte de TI com soluções técnicas para computadores e redes, manutenção preventiva e corretiva de computadores, montagem de computadores e suporte aos usuários.",
+    "professional.job2.title": "Recenseador",
+    "professional.job2.company": "Censo Demográfico 2022 | IBGE",
+    "professional.job2.period": "Julho de 2022 - Dezembro de 2022",
+    "professional.job2.description":
+      "Entrevista com moradores em suas residências, confirmação e correção de informações sobre logradouros e cadastro de novos domicílios e estabelecimentos no sistema do censo.",
+    "professional.job3.title": "Aprendiz Espro",
+    "professional.job3.company": "Empresa Parceira: Cinemark Brasil S.A.",
+    "professional.job3.period": "17 de dezembro de 2018 - 16 de março de 2020",
+    "professional.job3.description":
+      "Atuação no controle e envio de uniformes para unidades nacionais, processos de admissão e rescisão e rotinas administrativas em geral.",
+    "projects.title": "Projetos",
+    "projects.copy":
+      "Uma visão rápida de alguns projetos. Cada slide pode abrir um link dedicado do projeto.",
+    "projects.carouselAria": "Carrossel de projetos profissionais",
+    "projects.azErpAria": "Abrir projeto AZ-ERP",
+    "projects.azErpAlt": "Tela inicial do projeto AZ-ERP",
+    "projects.tomagoshiAria": "Abrir projeto Tomagoshi ESP32",
+    "projects.tomagoshiAlt": "Prévia do projeto Tomagoshi ESP32",
+    "projects.rewardHunterAria": "Abrir projeto Reward Hunter",
+    "projects.rewardHunterAlt": "Prévia do projeto Reward Hunter",
+    "projects.brinqueAria": "Abrir projeto BrinqueAprenda",
+    "projects.brinqueAlt": "Prévia do projeto BrinqueAprenda",
+    "projects.triagemAria": "Abrir projeto Triagem Inteligente",
+    "projects.triagemAlt": "Prévia do projeto Triagem Inteligente",
+    "projects.umbrelButtonAria": "Abrir detalhes do projeto Umbrel",
+    "projects.umbrelAlt": "Prévia do servidor Umbrel self-hosting",
+    "projects.umbrelCaption": "Servidor Umbrel self-hosting",
+    "projects.prev": "Anterior",
+    "projects.prevAria": "Slide anterior",
+    "projects.next": "Próximo",
+    "projects.nextAria": "Próximo slide",
+    "projects.dotsAria": "Navegação do carrossel",
+    "projects.modalClose": "Fechar",
+    "projects.modalCloseAria": "Fechar detalhes do projeto",
+    "projects.umbrelTitle": "Umbrel",
+    "projects.umbrelDescription":
+      "Este é meu próprio servidor utilizando a distribuição Linux Umbrel, que transforma um computador em um servidor capaz de hospedar serviços como streaming de música, filmes e séries, além de armazenamento de arquivos semelhante ao Google Drive. Este foi um projeto muito interessante em diversos aspectos, e nele apliquei uma ampla gama de conhecimentos que adquiri.<br><br>Comecei recondicionando um notebook antigo da minha família, um Samsung RF511, e antigo mesmo. Ele tinha um problema no conector jack de alimentação. Após removê-lo e substituí-lo por um novo, encontrei outro problema, um defeito crônico conhecido desse modelo: o capacitor Nec Tokin. Substituí por capacitores de tântalo. Nessa etapa, utilizei meus conhecimentos técnicos do início ao fim, desde o diagnóstico dos problemas e identificação dos componentes de substituição até a soldagem necessária.<br><br>Após essa primeira etapa, instalei e configurei o Umbrel. Os serviços hospedados atualmente são:<br>- Jellyfin: um aplicativo de streaming que já possui diversos filmes e séries<br>- Nextcloud: um serviço de nuvem para arquivos<br><br>Também consigo acessar remotamente tanto os serviços hospedados quanto o próprio servidor através da VPN Tailscale.<br><br>Esse é um projeto pessoal que demandou muita dedicação e me ensinou muito sobre como a internet e os serviços digitais funcionam. Administrar minha própria plataforma e serviços é um grande desafio, mas sem dúvidas foi, e continua sendo, muito divertido.",
+    "contact.title": "Contato",
+    "contact.copy":
+      "Escolha um canal abaixo. Depois você pode substituir cada link provisório pelo seu perfil real.",
+    "contact.linksAria": "Links de contato",
+    "contact.whatsappAria": "Abrir WhatsApp",
+    "contact.linkedinAria": "Abrir LinkedIn",
+    "contact.githubAria": "Abrir GitHub",
+    "contact.emailAria": "Enviar e-mail",
+  },
+};
+
+let currentLanguage = getStoredLanguage();
+
+function getStoredLanguage() {
+  const storedLanguage = window.localStorage.getItem(LANG_STORAGE_KEY);
+  return SUPPORTED_LANGUAGES.includes(storedLanguage)
+    ? storedLanguage
+    : DEFAULT_LANGUAGE;
+}
+
+function getTranslation(key, language = currentLanguage) {
+  return translations[language]?.[key] ?? translations[DEFAULT_LANGUAGE]?.[key] ?? key;
+}
+
+function getCarouselDotLabel(index) {
+  return currentLanguage === "pt-BR"
+    ? `Ir para o slide ${index + 1}`
+    : `Go to slide ${index + 1}`;
+}
+
+function applyTranslations(language = currentLanguage) {
+  currentLanguage = SUPPORTED_LANGUAGES.includes(language) ? language : DEFAULT_LANGUAGE;
+  document.documentElement.lang = currentLanguage;
+  window.localStorage.setItem(LANG_STORAGE_KEY, currentLanguage);
+
+  if (pageTitleKey) {
+    document.title = getTranslation(pageTitleKey, currentLanguage);
+  }
+
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    element.textContent = getTranslation(element.dataset.i18n, currentLanguage);
+  });
+
+  document.querySelectorAll("[data-i18n-html]").forEach((element) => {
+    element.innerHTML = getTranslation(element.dataset.i18nHtml, currentLanguage);
+  });
+
+  document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+    element.setAttribute(
+      "aria-label",
+      getTranslation(element.dataset.i18nAriaLabel, currentLanguage),
+    );
+  });
+
+  document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+    element.setAttribute("alt", getTranslation(element.dataset.i18nAlt, currentLanguage));
+  });
+
+  if (langToggleFlag) {
+    langToggleFlag.textContent = currentLanguage === "pt-BR" ? "🇺🇸" : "🇧🇷";
+  }
+
+  if (statusLabel?.dataset.statusKey) {
+    statusLabel.textContent = getTranslation(statusLabel.dataset.statusKey, currentLanguage);
+  }
+
+  document.querySelectorAll(".carousel__dot").forEach((dot, index) => {
+    dot.setAttribute("aria-label", getCarouselDotLabel(index));
+  });
+}
+
+langToggle?.addEventListener("click", () => {
+  const nextLanguage = currentLanguage === "pt-BR" ? "en" : "pt-BR";
+  applyTranslations(nextLanguage);
+});
+
 const canvas = document.querySelector("#cube-canvas");
 const stage = document.querySelector("#cube-stage");
 const scrambleButton = document.querySelector("#cube-scramble");
@@ -282,7 +525,8 @@ if (canvas && stage) {
   function showSolvedState() {
     stage.classList.add("is-solved");
     if (statusLabel) {
-      statusLabel.textContent = "Solved. Want to scramble and try again?";
+      statusLabel.dataset.statusKey = "cube.solved";
+      statusLabel.textContent = getTranslation("cube.solved");
       statusLabel.classList.add("is-visible");
     }
     solvedToastTimer = 2.8;
@@ -292,6 +536,7 @@ if (canvas && stage) {
     stage.classList.remove("is-solved");
     solvedToastTimer = 0;
     if (statusLabel && !preserveText) {
+      delete statusLabel.dataset.statusKey;
       statusLabel.textContent = "";
       statusLabel.classList.remove("is-visible");
     }
@@ -690,7 +935,7 @@ if (canvas && stage) {
 
 if (carouselTrack && carouselDots) {
   const slides = Array.from(carouselTrack.querySelectorAll(".carousel__slide"));
-  const AUTOPLAY_MS = 5000;
+  const AUTOPLAY_MS = 30000;
   let currentSlide = 0;
   let autoplayId = null;
 
@@ -722,7 +967,7 @@ if (carouselTrack && carouselDots) {
     const dot = document.createElement("button");
     dot.type = "button";
     dot.className = "carousel__dot";
-    dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
+    dot.setAttribute("aria-label", getCarouselDotLabel(index));
     dot.addEventListener("click", () => {
       goToSlide(index);
       restartAutoplay();
@@ -790,3 +1035,5 @@ if (modalTriggers.length > 0) {
     }
   });
 }
+
+applyTranslations(currentLanguage);
