@@ -12,6 +12,7 @@ const carouselTrack = document.querySelector("#professional-carousel-track");
 const carouselPrev = document.querySelector("#professional-carousel-prev");
 const carouselNext = document.querySelector("#professional-carousel-next");
 const carouselDots = document.querySelector("#professional-carousel-dots");
+const modalTriggers = document.querySelectorAll("[data-modal-target]");
 
 if (canvas && stage) {
   const FACE_COLORS = {
@@ -750,4 +751,42 @@ if (carouselTrack && carouselDots) {
 
   renderCarousel();
   restartAutoplay();
+}
+
+if (modalTriggers.length > 0) {
+  let activeModal = null;
+
+  function setModalOpen(modal, isOpen) {
+    modal.hidden = !isOpen;
+    modal.setAttribute("aria-hidden", String(!isOpen));
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    activeModal = isOpen ? modal : null;
+  }
+
+  modalTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      const targetId = trigger.getAttribute("data-modal-target");
+      const modal = document.getElementById(targetId);
+      if (!modal) {
+        return;
+      }
+      setModalOpen(modal, true);
+    });
+  });
+
+  document.querySelectorAll("[data-modal-close]").forEach((closer) => {
+    closer.addEventListener("click", () => {
+      const modal = closer.closest(".project-modal");
+      if (!modal) {
+        return;
+      }
+      setModalOpen(modal, false);
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && activeModal) {
+      setModalOpen(activeModal, false);
+    }
+  });
 }

@@ -62,6 +62,12 @@
                   alt="Triagem Inteligente project preview" />
                 <span class="carousel__caption">Triagem Inteligente</span>
               </a>
+
+              <button class="carousel__slide carousel__slide--button" type="button" data-modal-target="umbrel-modal"
+                aria-label="Open Umbrel project details">
+                <img src="./src/assets/projects/Umbrel/umbrel.jpg" alt="Umbrel selfhosting server preview" />
+                <span class="carousel__caption">Selfhosting server Umbrel</span>
+              </button>
             </div>
           </div>
 
@@ -75,6 +81,37 @@
             </button>
           </div>
         </section>
+
+        <div class="project-modal" id="umbrel-modal" hidden aria-hidden="true">
+          <div class="project-modal__backdrop" data-modal-close></div>
+          <div class="project-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="umbrel-modal-title">
+            <button class="project-modal__close" type="button" data-modal-close aria-label="Close project details">
+              Close
+            </button>
+            <h2 class="project-modal__title" id="umbrel-modal-title">Umbrel</h2>
+            <div class="project-modal__content">
+              <p>
+                This is my own server built with the Umbrel Linux distribution, which turns a computer into a server
+                capable of hosting services such as music, movie, and TV streaming, as well as file storage similar to
+                Google Drive. This was a very interesting project in many ways, and I applied a wide range of knowledge
+                I had acquired.<br>
+                I started by refurbishing an old notebook used by my family, a Samsung RF511, and it was truly old. It
+                had a problem with the DC power jack connector. After removing it and replacing it with a new one, I ran
+                into another issue, a known chronic problem with this model: the Nec Tokin capacitor. I replaced it with
+                tantalum capacitors. At this stage, I used my technical knowledge from start to finish, from diagnosing
+                the problems and identifying replacement components to carrying out the necessary soldering work.<br>
+
+                After this first stage, I installed and configured Umbrel. The services currently hosted are:<br>
+                * Jellyfin: a streaming application that already includes several movies and TV shows<br>
+                * Nextcloud: a cloud storage service for files<br>
+                I can also remotely access both the hosted services and the server itself through the Tailscale VPN.
+                This is a personal project that required a great deal of dedication and taught me a lot about how the
+                internet and digital services work. Managing my own platform and services is a major challenge, but it
+                has definitely been, and still is, a lot of fun.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   </div>
