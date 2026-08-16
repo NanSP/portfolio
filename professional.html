@@ -9,26 +9,39 @@
   <link rel="stylesheet" href="./src/styles/professional.css" />
 </head>
 
-<body>
+<body data-page-title-key="meta.title.professional">
   <div class="app">
     <header class="header">
       <a href="./index.html" class="logo">Hernandes Santos Pereira</a>
 
-      <nav class="nav">
-        <a href="./index.html">Home</a>
-        <a href="./professional.html">Professional</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-      </nav>
+      <div class="header-actions">
+        <nav class="nav">
+          <a href="./index.html" data-i18n="nav.home">Home</a>
+          <a href="./professional.html" data-i18n="nav.professional">Professional</a>
+          <a href="./projects.html" data-i18n="nav.projects">Projects</a>
+          <a href="./contact.html" data-i18n="nav.contact">Contact</a>
+        </nav>
+
+        <button
+          class="lang-toggle"
+          id="lang-toggle"
+          type="button"
+          aria-label="Switch to Brazilian Portuguese"
+          data-i18n-aria-label="lang.toggleAria"
+        >
+          <span class="lang-toggle__flag" aria-hidden="true">🇧🇷</span>
+          <span class="lang-toggle__label" data-i18n="lang.toggleLabel">PT-BR</span>
+        </button>
+      </div>
     </header>
 
     <main class="page-main">
       <section class="page-shell page-shell--professional">
-        <h1 class="page-title">Professional</h1>
-        <p class="page-copy">My professional experiences and administrative support background.</p>
+        <h1 class="page-title" data-i18n="professional.title">Professional</h1>
+        <p class="page-copy" data-i18n="professional.copy">My professional experiences and administrative support background.</p>
 
         <div class="professional-actions">
-          <a class="professional-download" href="./src/assets/resume/resume_Hernandes.pdf" download>
+          <a class="professional-download" href="./src/assets/resume/resume_Hernandes.pdf" download data-i18n="professional.download">
             Download PDF Resume
           </a>
         </div>
@@ -36,11 +49,11 @@
         <section class="professional-panel">
           <article class="experience-card">
             <div class="experience-card__meta">
-              <h2 class="experience-card__title">IT Support</h2>
-              <p class="experience-card__company">UNEB Campus II - Alagoinhas</p>
-              <p class="experience-card__period">July 2024 - Present</p>
+              <h2 class="experience-card__title" data-i18n="professional.job1.title">IT Support</h2>
+              <p class="experience-card__company" data-i18n="professional.job1.company">UNEB Campus II - Alagoinhas</p>
+              <p class="experience-card__period" data-i18n="professional.job1.period">July 2024 - Present</p>
             </div>
-            <p class="experience-card__description">
+            <p class="experience-card__description" data-i18n="professional.job1.description">
               Based at Campus II of the State University of Bahia in Alagoinhas,
               working in IT support with technical solutions for computers and
               networks, preventive and corrective computer maintenance,
@@ -50,11 +63,11 @@
 
           <article class="experience-card">
             <div class="experience-card__meta">
-              <h2 class="experience-card__title">Enumerator</h2>
-              <p class="experience-card__company">2022 Demographic Census | IBGE</p>
-              <p class="experience-card__period">July 2022 - December 2022</p>
+              <h2 class="experience-card__title" data-i18n="professional.job2.title">Enumerator</h2>
+              <p class="experience-card__company" data-i18n="professional.job2.company">2022 Demographic Census | IBGE</p>
+              <p class="experience-card__period" data-i18n="professional.job2.period">July 2022 - December 2022</p>
             </div>
-            <p class="experience-card__description">
+            <p class="experience-card__description" data-i18n="professional.job2.description">
               Interviewed residents in their homes, confirmed and corrected
               street information, and registered new households and
               establishments in the census system.
@@ -63,11 +76,11 @@
 
           <article class="experience-card">
             <div class="experience-card__meta">
-              <h2 class="experience-card__title">Espro Apprentice</h2>
-              <p class="experience-card__company">Partner Company: Cinemark Brasil S.A.</p>
-              <p class="experience-card__period">December 17, 2018 - March 16, 2020</p>
+              <h2 class="experience-card__title" data-i18n="professional.job3.title">Espro Apprentice</h2>
+              <p class="experience-card__company" data-i18n="professional.job3.company">Partner Company: Cinemark Brasil S.A.</p>
+              <p class="experience-card__period" data-i18n="professional.job3.period">December 17, 2018 - March 16, 2020</p>
             </div>
-            <p class="experience-card__description">
+            <p class="experience-card__description" data-i18n="professional.job3.description">
               Supported uniform control and distribution for national units,
               admission and termination processes, and general administrative
               routines.
@@ -77,6 +90,7 @@
       </section>
     </main>
   </div>
+  <script type="module" src="./src/main.js"></script>
 </body>
 
 </html>

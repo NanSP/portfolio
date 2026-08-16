@@ -9,72 +9,122 @@
   <link rel="stylesheet" href="./src/styles/projects.css" />
 </head>
 
-<body>
+<body data-page-title-key="meta.title.projects">
   <div class="app">
     <header class="header">
       <a href="./index.html" class="logo">Hernandes Santos Pereira</a>
 
-      <nav class="nav">
-        <a href="./index.html">Home</a>
-        <a href="./professional.html">Professional</a>
-        <a href="./projects.html">Projects</a>
-        <a href="./contact.html">Contact</a>
-      </nav>
+      <div class="header-actions">
+        <nav class="nav">
+          <a href="./index.html" data-i18n="nav.home">Home</a>
+          <a href="./professional.html" data-i18n="nav.professional">Professional</a>
+          <a href="./projects.html" data-i18n="nav.projects">Projects</a>
+          <a href="./contact.html" data-i18n="nav.contact">Contact</a>
+        </nav>
+
+        <button
+          class="lang-toggle"
+          id="lang-toggle"
+          type="button"
+          aria-label="Switch to Brazilian Portuguese"
+          data-i18n-aria-label="lang.toggleAria"
+        >
+          <span class="lang-toggle__flag" aria-hidden="true">🇧🇷</span>
+          <span class="lang-toggle__label" data-i18n="lang.toggleLabel">PT-BR</span>
+        </button>
+      </div>
     </header>
 
     <main class="page-main">
       <section class="page-shell page-shell--professional">
-        <h1 class="page-title">Projects</h1>
-        <p class="professional-text">A quick look at some project snapshots. Each slide can open a dedicated project
+        <h1 class="page-title" data-i18n="projects.title">Projects</h1>
+        <p class="professional-text" data-i18n="projects.copy">A quick look at some project snapshots. Each slide can open a dedicated project
           link.</p>
-        <section class="carousel" aria-label="Professional projects carousel">
+        <section class="carousel" aria-label="Professional projects carousel" data-i18n-aria-label="projects.carouselAria">
           <div class="carousel__viewport">
             <div class="carousel__track" id="professional-carousel-track">
               <a class="carousel__slide" href="https://github.com/NanSP/AZ_ERP" target="_blank" rel="noreferrer"
-                aria-label="Open AZ-ERP project">
-                <img src="./src/assets/projects/AZ-ERP/tela_home.png" alt="AZ-ERP project home screen" />
+                aria-label="Open AZ-ERP project" data-i18n-aria-label="projects.azErpAria">
+                <img src="./src/assets/projects/AZ-ERP/tela_home.png" alt="AZ-ERP project home screen" data-i18n-alt="projects.azErpAlt" />
                 <span class="carousel__caption">AZ-ERP</span>
               </a>
 
               <a class="carousel__slide" href="https://github.com/NanSP/tomagoshi_ESP32" target="_blank"
-                rel="noreferrer" aria-label="Open Tomagoshi ESP32 project">
+                rel="noreferrer" aria-label="Open Tomagoshi ESP32 project" data-i18n-aria-label="projects.tomagoshiAria">
                 <img src="./src/assets/projects/tomagoshi_ESP32/tomagoshi_v3.jpeg"
-                  alt="Tomagoshi ESP32 project preview" />
+                  alt="Tomagoshi ESP32 project preview" data-i18n-alt="projects.tomagoshiAlt" />
                 <span class="carousel__caption">Tomagoshi ESP32</span>
               </a>
 
               <a class="carousel__slide" href="https://github.com/NanSP/GameProject" target="_blank" rel="noreferrer"
-                aria-label="Java game">
-                <img src="./src/assets/projects/Reward_hunter/reward_hunter.jpg" alt="Reward Hunter project preview" />
+                aria-label="Java game" data-i18n-aria-label="projects.rewardHunterAria">
+                <img src="./src/assets/projects/Reward_hunter/reward_hunter.jpg" alt="Reward Hunter project preview" data-i18n-alt="projects.rewardHunterAlt" />
                 <span class="carousel__caption">Reward Hunter - Java Game</span>
               </a>
 
               <a class="carousel__slide" href="https://github.com/petcau/ProjetoBrinqueAprenda" target="_blank"
-                rel="noreferrer" aria-label="Projeto BrinqueAprenda">
+                rel="noreferrer" aria-label="Projeto BrinqueAprenda" data-i18n-aria-label="projects.brinqueAria">
                 <img src="./src/assets/projects/BrinqueAprenda/brinque_aprenda.jpg"
-                  alt="Projeto BrinqueAprenda project preview" />
+                  alt="Projeto BrinqueAprenda project preview" data-i18n-alt="projects.brinqueAlt" />
                 <span class="carousel__caption">Projeto BrinqueAprenda</span>
               </a>
 
               <a class="carousel__slide" href="https://github.com/Pablo-Sant/Plataforma_Educacao_Saude" target="_blank"
-                rel="noreferrer" aria-label="Triagem Inteligente">
+                rel="noreferrer" aria-label="Triagem Inteligente" data-i18n-aria-label="projects.triagemAria">
                 <img src="./src/assets/projects/Triagem_inteligente/triagem_inteligente.jpg"
-                  alt="Triagem Inteligente project preview" />
+                  alt="Triagem Inteligente project preview" data-i18n-alt="projects.triagemAlt" />
                 <span class="carousel__caption">Triagem Inteligente</span>
               </a>
+
+              <button class="carousel__slide carousel__slide--button" type="button" data-modal-target="umbrel-modal"
+                aria-label="Open Umbrel project details" data-i18n-aria-label="projects.umbrelButtonAria">
+                <img src="./src/assets/projects/Umbrel/umbrel.jpg" alt="Umbrel selfhosting server preview" data-i18n-alt="projects.umbrelAlt" />
+                <span class="carousel__caption" data-i18n="projects.umbrelCaption">Selfhosting server Umbrel</span>
+              </button>
             </div>
           </div>
 
           <div class="carousel__controls">
-            <button class="carousel__button" id="professional-carousel-prev" type="button" aria-label="Previous slide">
+            <button class="carousel__button" id="professional-carousel-prev" type="button" aria-label="Previous slide" data-i18n-aria-label="projects.prevAria" data-i18n="projects.prev">
               Prev
             </button>
-            <div class="carousel__dots" id="professional-carousel-dots" aria-label="Carousel navigation"></div>
-            <button class="carousel__button" id="professional-carousel-next" type="button" aria-label="Next slide">
+            <div class="carousel__dots" id="professional-carousel-dots" aria-label="Carousel navigation" data-i18n-aria-label="projects.dotsAria"></div>
+            <button class="carousel__button" id="professional-carousel-next" type="button" aria-label="Next slide" data-i18n-aria-label="projects.nextAria" data-i18n="projects.next">
               Next
             </button>
           </div>
         </section>
+
+        <div class="project-modal" id="umbrel-modal" hidden aria-hidden="true">
+          <div class="project-modal__backdrop" data-modal-close></div>
+          <div class="project-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="umbrel-modal-title">
+            <button class="project-modal__close" type="button" data-modal-close aria-label="Close project details" data-i18n-aria-label="projects.modalCloseAria" data-i18n="projects.modalClose">
+              Close
+            </button>
+            <h2 class="project-modal__title" id="umbrel-modal-title" data-i18n="projects.umbrelTitle">Umbrel</h2>
+            <div class="project-modal__content">
+              <p data-i18n-html="projects.umbrelDescription">
+                This is my own server built with the Umbrel Linux distribution, which turns a computer into a server
+                capable of hosting services such as music, movie, and TV streaming, as well as file storage similar to
+                Google Drive. This was a very interesting project in many ways, and I applied a wide range of knowledge
+                I had acquired.<br>
+                I started by refurbishing an old notebook used by my family, a Samsung RF511, and it was truly old. It
+                had a problem with the DC power jack connector. After removing it and replacing it with a new one, I ran
+                into another issue, a known chronic problem with this model: the Nec Tokin capacitor. I replaced it with
+                tantalum capacitors. At this stage, I used my technical knowledge from start to finish, from diagnosing
+                the problems and identifying replacement components to carrying out the necessary soldering work.<br>
+
+                After this first stage, I installed and configured Umbrel. The services currently hosted are:<br>
+                * Jellyfin: a streaming application that already includes several movies and TV shows<br>
+                * Nextcloud: a cloud storage service for files<br>
+                I can also remotely access both the hosted services and the server itself through the Tailscale VPN.
+                This is a personal project that required a great deal of dedication and taught me a lot about how the
+                internet and digital services work. Managing my own platform and services is a major challenge, but it
+                has definitely been, and still is, a lot of fun.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   </div>
