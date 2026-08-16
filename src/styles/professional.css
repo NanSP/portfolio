@@ -1,0 +1,90 @@
+.page-shell--professional {
+  display: grid;
+  gap: 24px;
+}
+
+.professional-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.professional-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 240px;
+  padding: 14px 22px;
+  border: 1px solid rgba(92, 93, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(33, 18, 201, 0.92);
+  font-size: 1rem;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.professional-download:hover {
+  transform: translateY(-2px);
+  background: rgba(46, 33, 255, 0.96);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
+}
+
+.professional-panel {
+  width: min(100%, 880px);
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+.experience-card {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 24px;
+}
+
+.experience-card__meta {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.experience-card__title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.experience-card__company {
+  color: rgba(245, 245, 245, 0.88);
+  font-size: 1.05rem;
+}
+
+.experience-card__period {
+  color: rgba(180, 180, 180, 0.92);
+  font-size: 0.98rem;
+}
+
+.experience-card__description {
+  color: rgba(245, 245, 245, 0.88);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .professional-download {
+    min-width: 100%;
+  }
+
+  .experience-card {
+    padding: 20px;
+  }
+
+  .experience-card__title {
+    font-size: 1.25rem;
+  }
+
+  .experience-card__description {
+    font-size: 0.96rem;
+  }
+}
