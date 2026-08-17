@@ -1,11 +1,23 @@
-import * as THREE from "three";
+import {
+  initCube,
+  mountCubeComponent,
+} from "./components/cube/cube.js";
 
 const LANG_STORAGE_KEY = "portfolio-language";
 const DEFAULT_LANGUAGE = "en";
 const SUPPORTED_LANGUAGES = ["en", "pt-BR"];
+const FLAG_BR = "\uD83C\uDDE7\uD83C\uDDF7";
+const FLAG_US = "\uD83C\uDDFA\uD83C\uDDF8";
+
 const langToggle = document.querySelector("#lang-toggle");
 const langToggleFlag = document.querySelector(".lang-toggle__flag");
 const pageTitleKey = document.body.dataset.pageTitleKey;
+const cubeRoot = document.querySelector("#cube-component-root");
+const carouselTrack = document.querySelector("#professional-carousel-track");
+const carouselPrev = document.querySelector("#professional-carousel-prev");
+const carouselNext = document.querySelector("#professional-carousel-next");
+const carouselDots = document.querySelector("#professional-carousel-dots");
+const modalTriggers = document.querySelectorAll("[data-modal-target]");
 
 const translations = {
   en: {
@@ -93,7 +105,7 @@ const translations = {
     "contact.emailAria": "Send email",
   },
   "pt-BR": {
-    "meta.title.home": "Portfólio",
+    "meta.title.home": "Portf\u00F3lio",
     "meta.title.professional": "Profissional",
     "meta.title.projects": "Projetos",
     "meta.title.contact": "Contato",
@@ -102,74 +114,74 @@ const translations = {
     "nav.projects": "Projetos",
     "nav.contact": "Contato",
     "lang.toggleLabel": "EN",
-    "lang.toggleAria": "Mudar para inglês",
-    "home.heroTitleLine1": "Olá,",
-    "home.heroTitleLine2": "bem-vindo ao meu portfólio!",
+    "lang.toggleAria": "Mudar para ingl\u00EAs",
+    "home.heroTitleLine1": "Ol\u00E1,",
+    "home.heroTitleLine2": "bem-vindo ao meu portf\u00F3lio!",
     "home.heroDescription":
       "Sou Hernandes, estudante de Engenharia de Software da Universidade do Estado da Bahia",
-    "home.heroText": "Saiba mais sobre mim aqui e sinta-se à vontade para entrar em contato.",
+    "home.heroText": "Saiba mais sobre mim aqui e sinta-se \u00E0 vontade para entrar em contato.",
     "home.contactButton": "Contato",
     "home.portraitAlt": "Retrato de Hernandes Santos Pereira",
-    "cube.invite": "Quer um desafio rápido? Tente resolver o cubo.",
+    "cube.invite": "Quer um desafio r\u00E1pido? Tente resolver o cubo.",
     "cube.guideToggleAria": "Mostrar guia do cubo",
     "cube.guideTitle": "Como jogar",
-    "cube.guideLine1": "Arraste fora do cubo para orbitar a câmera.",
+    "cube.guideLine1": "Arraste fora do cubo para orbitar a c\u00E2mera.",
     "cube.guideLine2": "Deslize sobre uma face para girar aquela camada.",
-    "cube.guideLine3": "Use Embaralhar para misturar e Resetar para voltar ao início.",
-    "cube.canvasAria": "Cubo mágico 3D interativo",
+    "cube.guideLine3": "Use Embaralhar para misturar e Resetar para voltar ao in\u00EDcio.",
+    "cube.canvasAria": "Cubo m\u00E1gico 3D interativo",
     "cube.scramble": "Embaralhar",
     "cube.solve": "Resolver",
     "cube.reset": "Resetar",
     "cube.solved": "Resolvido. Quer embaralhar e tentar novamente?",
     "professional.title": "Profissional",
     "professional.copy":
-      "Minhas experiências profissionais e minha atuação com suporte administrativo.",
-    "professional.download": "Baixar currículo em PDF",
+      "Minhas experi\u00EAncias profissionais e minha atua\u00E7\u00E3o com suporte administrativo.",
+    "professional.download": "Baixar curr\u00EDculo em PDF",
     "professional.job1.title": "Suporte de TI",
     "professional.job1.company": "UNEB Campus II - Alagoinhas",
     "professional.job1.period": "Julho de 2024 - Atualmente",
     "professional.job1.description":
-      "Lotado no Campus II da Universidade do Estado da Bahia, em Alagoinhas, atuando em suporte de TI com soluções técnicas para computadores e redes, manutenção preventiva e corretiva de computadores, montagem de computadores e suporte aos usuários.",
+      "Lotado no Campus II da Universidade do Estado da Bahia, em Alagoinhas, atuando em suporte de TI com solu\u00E7\u00F5es t\u00E9cnicas para computadores e redes, manuten\u00E7\u00E3o preventiva e corretiva de computadores, montagem de computadores e suporte aos usu\u00E1rios.",
     "professional.job2.title": "Recenseador",
-    "professional.job2.company": "Censo Demográfico 2022 | IBGE",
+    "professional.job2.company": "Censo Demogr\u00E1fico 2022 | IBGE",
     "professional.job2.period": "Julho de 2022 - Dezembro de 2022",
     "professional.job2.description":
-      "Entrevista com moradores em suas residências, confirmação e correção de informações sobre logradouros e cadastro de novos domicílios e estabelecimentos no sistema do censo.",
+      "Entrevista com moradores em suas resid\u00EAncias, confirma\u00E7\u00E3o e corre\u00E7\u00E3o de informa\u00E7\u00F5es sobre logradouros e cadastro de novos domic\u00EDlios e estabelecimentos no sistema do censo.",
     "professional.job3.title": "Aprendiz Espro",
     "professional.job3.company": "Empresa Parceira: Cinemark Brasil S.A.",
-    "professional.job3.period": "17 de dezembro de 2018 - 16 de março de 2020",
+    "professional.job3.period": "17 de dezembro de 2018 - 16 de mar\u00E7o de 2020",
     "professional.job3.description":
-      "Atuação no controle e envio de uniformes para unidades nacionais, processos de admissão e rescisão e rotinas administrativas em geral.",
+      "Atua\u00E7\u00E3o no controle e envio de uniformes para unidades nacionais, processos de admiss\u00E3o e rescis\u00E3o e rotinas administrativas em geral.",
     "projects.title": "Projetos",
     "projects.copy":
-      "Uma visão rápida de alguns projetos. Cada slide pode abrir um link dedicado do projeto.",
+      "Uma vis\u00E3o r\u00E1pida de alguns projetos. Cada slide pode abrir um link dedicado do projeto.",
     "projects.carouselAria": "Carrossel de projetos profissionais",
     "projects.azErpAria": "Abrir projeto AZ-ERP",
     "projects.azErpAlt": "Tela inicial do projeto AZ-ERP",
     "projects.tomagoshiAria": "Abrir projeto Tomagoshi ESP32",
-    "projects.tomagoshiAlt": "Prévia do projeto Tomagoshi ESP32",
+    "projects.tomagoshiAlt": "Pr\u00E9via do projeto Tomagoshi ESP32",
     "projects.rewardHunterAria": "Abrir projeto Reward Hunter",
-    "projects.rewardHunterAlt": "Prévia do projeto Reward Hunter",
+    "projects.rewardHunterAlt": "Pr\u00E9via do projeto Reward Hunter",
     "projects.brinqueAria": "Abrir projeto BrinqueAprenda",
-    "projects.brinqueAlt": "Prévia do projeto BrinqueAprenda",
+    "projects.brinqueAlt": "Pr\u00E9via do projeto BrinqueAprenda",
     "projects.triagemAria": "Abrir projeto Triagem Inteligente",
-    "projects.triagemAlt": "Prévia do projeto Triagem Inteligente",
+    "projects.triagemAlt": "Pr\u00E9via do projeto Triagem Inteligente",
     "projects.umbrelButtonAria": "Abrir detalhes do projeto Umbrel",
-    "projects.umbrelAlt": "Prévia do servidor Umbrel self-hosting",
+    "projects.umbrelAlt": "Pr\u00E9via do servidor Umbrel self-hosting",
     "projects.umbrelCaption": "Servidor Umbrel self-hosting",
     "projects.prev": "Anterior",
     "projects.prevAria": "Slide anterior",
-    "projects.next": "Próximo",
-    "projects.nextAria": "Próximo slide",
-    "projects.dotsAria": "Navegação do carrossel",
+    "projects.next": "Pr\u00F3ximo",
+    "projects.nextAria": "Pr\u00F3ximo slide",
+    "projects.dotsAria": "Navega\u00E7\u00E3o do carrossel",
     "projects.modalClose": "Fechar",
     "projects.modalCloseAria": "Fechar detalhes do projeto",
     "projects.umbrelTitle": "Umbrel",
     "projects.umbrelDescription":
-      "Este é meu próprio servidor utilizando a distribuição Linux Umbrel, que transforma um computador em um servidor capaz de hospedar serviços como streaming de música, filmes e séries, além de armazenamento de arquivos semelhante ao Google Drive. Este foi um projeto muito interessante em diversos aspectos, e nele apliquei uma ampla gama de conhecimentos que adquiri.<br><br>Comecei recondicionando um notebook antigo da minha família, um Samsung RF511, e antigo mesmo. Ele tinha um problema no conector jack de alimentação. Após removê-lo e substituí-lo por um novo, encontrei outro problema, um defeito crônico conhecido desse modelo: o capacitor Nec Tokin. Substituí por capacitores de tântalo. Nessa etapa, utilizei meus conhecimentos técnicos do início ao fim, desde o diagnóstico dos problemas e identificação dos componentes de substituição até a soldagem necessária.<br><br>Após essa primeira etapa, instalei e configurei o Umbrel. Os serviços hospedados atualmente são:<br>- Jellyfin: um aplicativo de streaming que já possui diversos filmes e séries<br>- Nextcloud: um serviço de nuvem para arquivos<br><br>Também consigo acessar remotamente tanto os serviços hospedados quanto o próprio servidor através da VPN Tailscale.<br><br>Esse é um projeto pessoal que demandou muita dedicação e me ensinou muito sobre como a internet e os serviços digitais funcionam. Administrar minha própria plataforma e serviços é um grande desafio, mas sem dúvidas foi, e continua sendo, muito divertido.",
+      "Este \u00E9 meu pr\u00F3prio servidor utilizando a distribui\u00E7\u00E3o Linux Umbrel, que transforma um computador em um servidor capaz de hospedar servi\u00E7os como streaming de m\u00FAsica, filmes e s\u00E9ries, al\u00E9m de armazenamento de arquivos semelhante ao Google Drive. Este foi um projeto muito interessante em diversos aspectos, e nele apliquei uma ampla gama de conhecimentos que adquiri.<br><br>Comecei recondicionando um notebook antigo da minha fam\u00EDlia, um Samsung RF511, e antigo mesmo. Ele tinha um problema no conector jack de alimenta\u00E7\u00E3o. Ap\u00F3s remov\u00EA-lo e substitu\u00ED-lo por um novo, encontrei outro problema, um defeito cr\u00F4nico conhecido desse modelo: o capacitor Nec Tokin. Substitu\u00ED por capacitores de t\u00E2ntalo. Nessa etapa, utilizei meus conhecimentos t\u00E9cnicos do in\u00EDcio ao fim, desde o diagn\u00F3stico dos problemas e identifica\u00E7\u00E3o dos componentes de substitui\u00E7\u00E3o at\u00E9 a soldagem necess\u00E1ria.<br><br>Ap\u00F3s essa primeira etapa, instalei e configurei o Umbrel. Os servi\u00E7os hospedados atualmente s\u00E3o:<br>- Jellyfin: um aplicativo de streaming que j\u00E1 possui diversos filmes e s\u00E9ries<br>- Nextcloud: um servi\u00E7o de nuvem para arquivos<br><br>Tamb\u00E9m consigo acessar remotamente tanto os servi\u00E7os hospedados quanto o pr\u00F3prio servidor atrav\u00E9s da VPN Tailscale.<br><br>Esse \u00E9 um projeto pessoal que demandou muita dedica\u00E7\u00E3o e me ensinou muito sobre como a internet e os servi\u00E7os digitais funcionam. Administrar minha pr\u00F3pria plataforma e servi\u00E7os \u00E9 um grande desafio, mas sem d\u00FAvidas foi, e continua sendo, muito divertido.",
     "contact.title": "Contato",
     "contact.copy":
-      "Escolha um canal abaixo. Depois você pode substituir cada link provisório pelo seu perfil real.",
+      "Escolha um canal abaixo. Depois voc\u00EA pode substituir cada link provis\u00F3rio pelo seu perfil real.",
     "contact.linksAria": "Links de contato",
     "contact.whatsappAria": "Abrir WhatsApp",
     "contact.linkedinAria": "Abrir LinkedIn",
@@ -179,6 +191,7 @@ const translations = {
 };
 
 let currentLanguage = getStoredLanguage();
+let cubeStatusLabel = null;
 
 function getStoredLanguage() {
   const storedLanguage = window.localStorage.getItem(LANG_STORAGE_KEY);
@@ -188,7 +201,9 @@ function getStoredLanguage() {
 }
 
 function getTranslation(key, language = currentLanguage) {
-  return translations[language]?.[key] ?? translations[DEFAULT_LANGUAGE]?.[key] ?? key;
+  return translations[language]?.[key]
+    ?? translations[DEFAULT_LANGUAGE]?.[key]
+    ?? key;
 }
 
 function getCarouselDotLabel(index) {
@@ -198,7 +213,9 @@ function getCarouselDotLabel(index) {
 }
 
 function applyTranslations(language = currentLanguage) {
-  currentLanguage = SUPPORTED_LANGUAGES.includes(language) ? language : DEFAULT_LANGUAGE;
+  currentLanguage = SUPPORTED_LANGUAGES.includes(language)
+    ? language
+    : DEFAULT_LANGUAGE;
   document.documentElement.lang = currentLanguage;
   window.localStorage.setItem(LANG_STORAGE_KEY, currentLanguage);
 
@@ -222,15 +239,21 @@ function applyTranslations(language = currentLanguage) {
   });
 
   document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
-    element.setAttribute("alt", getTranslation(element.dataset.i18nAlt, currentLanguage));
+    element.setAttribute(
+      "alt",
+      getTranslation(element.dataset.i18nAlt, currentLanguage),
+    );
   });
 
   if (langToggleFlag) {
-    langToggleFlag.textContent = currentLanguage === "pt-BR" ? "🇺🇸" : "🇧🇷";
+    langToggleFlag.textContent = currentLanguage === "pt-BR" ? FLAG_US : FLAG_BR;
   }
 
-  if (statusLabel?.dataset.statusKey) {
-    statusLabel.textContent = getTranslation(statusLabel.dataset.statusKey, currentLanguage);
+  if (cubeStatusLabel?.dataset.statusKey) {
+    cubeStatusLabel.textContent = getTranslation(
+      cubeStatusLabel.dataset.statusKey,
+      currentLanguage,
+    );
   }
 
   document.querySelectorAll(".carousel__dot").forEach((dot, index) => {
@@ -238,702 +261,11 @@ function applyTranslations(language = currentLanguage) {
   });
 }
 
-langToggle?.addEventListener("click", () => {
-  const nextLanguage = currentLanguage === "pt-BR" ? "en" : "pt-BR";
-  applyTranslations(nextLanguage);
-});
-
-const canvas = document.querySelector("#cube-canvas");
-const stage = document.querySelector("#cube-stage");
-const scrambleButton = document.querySelector("#cube-scramble");
-const solveButton = document.querySelector("#cube-solve");
-const resetButton = document.querySelector("#cube-reset");
-const guideToggle = document.querySelector("#cube-guide-toggle");
-const guidePanel = document.querySelector("#cube-guide");
-const statusLabel = document.querySelector("#cube-status");
-const carouselTrack = document.querySelector("#professional-carousel-track");
-const carouselPrev = document.querySelector("#professional-carousel-prev");
-const carouselNext = document.querySelector("#professional-carousel-next");
-const carouselDots = document.querySelector("#professional-carousel-dots");
-const modalTriggers = document.querySelectorAll("[data-modal-target]");
-
-if (canvas && stage) {
-  const FACE_COLORS = {
-    px: "#ff7a00",
-    nx: "#d62828",
-    py: "#ffffff",
-    ny: "#f4d000",
-    pz: "#0d6efd",
-    nz: "#1a8f3c",
-  };
-
-  const GRID_SPACING = 1.05;
-  const TURN_ANGLE = Math.PI / 2;
-  const SCRAMBLE_LENGTH = 18;
-  const ORBIT_SENSITIVITY = 0.008;
-  const faceOffsets = {
-    px: new THREE.Vector3(0.485, 0, 0),
-    nx: new THREE.Vector3(-0.485, 0, 0),
-    py: new THREE.Vector3(0, 0.485, 0),
-    ny: new THREE.Vector3(0, -0.485, 0),
-    pz: new THREE.Vector3(0, 0, 0.485),
-    nz: new THREE.Vector3(0, 0, -0.485),
-  };
-
-  const faceRotations = {
-    px: [0, Math.PI / 2, 0],
-    nx: [0, -Math.PI / 2, 0],
-    py: [-Math.PI / 2, 0, 0],
-    ny: [Math.PI / 2, 0, 0],
-    pz: [0, 0, 0],
-    nz: [0, Math.PI, 0],
-  };
-
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    alpha: true,
-  });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
-  camera.position.set(0, 0.6, 9.2);
-
-  const raycaster = new THREE.Raycaster();
-  const pointer = new THREE.Vector2();
-  const clock = new THREE.Clock();
-  const cubeRoot = new THREE.Group();
-  const tempGroup = new THREE.Group();
-  const cubies = [];
-  const initialCubieStates = new Map();
-  const cubeLocalAxes = {
-    x: new THREE.Vector3(1, 0, 0),
-    y: new THREE.Vector3(0, 1, 0),
-    z: new THREE.Vector3(0, 0, 1),
-  };
-
-  let orbitYaw = -0.55;
-  let orbitPitch = 0.55;
-  let targetYaw = orbitYaw;
-  let targetPitch = orbitPitch;
-  let activeTurn = null;
-  let interaction = null;
-  let autoRotateTimer = 0;
-  let pendingMoves = [];
-  let moveHistory = [];
-  let isSolving = false;
-  let previewLayer = null;
-  let solvedToastTimer = 0;
-
-  scene.add(cubeRoot);
-  scene.add(tempGroup);
-
-  scene.add(new THREE.AmbientLight("#ffffff", 1.3));
-
-  const keyLight = new THREE.DirectionalLight("#dce7ff", 1.5);
-  keyLight.position.set(4, 6, 7);
-  const fillLight = new THREE.DirectionalLight("#5f66ff", 0.45);
-  fillLight.position.set(-6, -2, 5);
-  scene.add(keyLight, fillLight);
-
-  const cubeBodyGeometry = new THREE.BoxGeometry(0.96, 0.96, 0.96, 4, 4, 4);
-  const cubeBodyMaterial = new THREE.MeshPhysicalMaterial({
-    color: "#090909",
-    roughness: 0.28,
-    metalness: 0.08,
-    clearcoat: 0.6,
-    clearcoatRoughness: 0.26,
-  });
-
-  const stickerMaterials = Object.fromEntries(
-    Object.entries(FACE_COLORS).map(([key, color]) => [
-      key,
-      new THREE.MeshPhysicalMaterial({
-        color,
-        roughness: 0.45,
-        metalness: 0.03,
-        clearcoat: 0.35,
-        clearcoatRoughness: 0.4,
-      }),
-    ]),
-  );
-
-  function createCubie(gridX, gridY, gridZ) {
-    const group = new THREE.Group();
-    const body = new THREE.Mesh(cubeBodyGeometry, cubeBodyMaterial.clone());
-    body.material.emissive = new THREE.Color("#000000");
-    body.material.emissiveIntensity = 0;
-    group.userData.body = body;
-    group.userData.stickers = [];
-    group.add(body);
-
-    const stickerGeometry = new THREE.PlaneGeometry(0.72, 0.72);
-    [
-      ["px", gridX === 1],
-      ["nx", gridX === -1],
-      ["py", gridY === 1],
-      ["ny", gridY === -1],
-      ["pz", gridZ === 1],
-      ["nz", gridZ === -1],
-    ].forEach(([faceKey, visible]) => {
-      if (!visible) {
-        return;
-      }
-
-      const sticker = new THREE.Mesh(
-        stickerGeometry,
-        stickerMaterials[faceKey].clone(),
-      );
-      sticker.position.copy(faceOffsets[faceKey]);
-      sticker.rotation.set(...faceRotations[faceKey]);
-      sticker.userData.faceKey = faceKey;
-      sticker.userData.cubie = group;
-      sticker.material.emissive = new THREE.Color("#000000");
-      sticker.material.emissiveIntensity = 0;
-      group.userData.stickers.push(sticker);
-      group.add(sticker);
-    });
-
-    group.position.set(gridX * GRID_SPACING, gridY * GRID_SPACING, gridZ * GRID_SPACING);
-    group.userData.grid = { x: gridX, y: gridY, z: gridZ };
-    cubeRoot.add(group);
-    cubies.push(group);
-    initialCubieStates.set(group.uuid, {
-      position: group.position.clone(),
-      quaternion: group.quaternion.clone(),
-      grid: { ...group.userData.grid },
-    });
+function initCarousel() {
+  if (!carouselTrack || !carouselDots) {
+    return;
   }
 
-  for (let x = -1; x <= 1; x += 1) {
-    for (let y = -1; y <= 1; y += 1) {
-      for (let z = -1; z <= 1; z += 1) {
-        createCubie(x, y, z);
-      }
-    }
-  }
-
-  function setRendererSize() {
-    const { width } = stage.getBoundingClientRect();
-    const height = canvas.clientHeight || 320;
-    renderer.setSize(width, height, false);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    const scale = width < 340 ? 0.85 : 1;
-    cubeRoot.scale.setScalar(scale);
-  }
-
-  function updatePointer(clientX, clientY) {
-    const rect = canvas.getBoundingClientRect();
-    pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-    pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1;
-  }
-
-  function pickSticker(clientX, clientY) {
-    updatePointer(clientX, clientY);
-    raycaster.setFromCamera(pointer, camera);
-    const hits = raycaster.intersectObjects(cubeRoot.children, true);
-    return hits.find((hit) => hit.object.userData.faceKey) || null;
-  }
-
-  function getFaceInteractionData(hit) {
-    const faceQuaternion = new THREE.Quaternion();
-    hit.object.getWorldQuaternion(faceQuaternion);
-
-    const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(faceQuaternion).normalize();
-    const tangentU = new THREE.Vector3(1, 0, 0).applyQuaternion(faceQuaternion).normalize();
-    const tangentV = new THREE.Vector3(0, 1, 0).applyQuaternion(faceQuaternion).normalize();
-
-    return {
-      plane: new THREE.Plane().setFromNormalAndCoplanarPoint(normal, hit.point),
-      startPoint: hit.point.clone(),
-      normal,
-      tangentU,
-      tangentV,
-    };
-  }
-
-  function intersectPointerWithPlane(clientX, clientY, plane) {
-    updatePointer(clientX, clientY);
-    raycaster.setFromCamera(pointer, camera);
-    const point = new THREE.Vector3();
-    const intersects = raycaster.ray.intersectPlane(plane, point);
-    return intersects ? point : null;
-  }
-
-  function resolveTurnFromGesture(interactionState, clientX, clientY) {
-    const faceMesh = interactionState.hit.object;
-    const cubie = faceMesh.userData.cubie;
-    const currentPoint = intersectPointerWithPlane(
-      clientX,
-      clientY,
-      interactionState.facePlane,
-    );
-
-    if (!currentPoint) {
-      return null;
-    }
-
-    const worldDrag = currentPoint.clone().sub(interactionState.faceStartPoint);
-    const dragU = worldDrag.dot(interactionState.faceTangentU);
-    const dragV = worldDrag.dot(interactionState.faceTangentV);
-
-    if (Math.abs(dragU) < 0.02 && Math.abs(dragV) < 0.02) {
-      return null;
-    }
-
-    const useU = Math.abs(dragU) >= Math.abs(dragV);
-    const chosenTangent = useU
-      ? interactionState.faceTangentU
-      : interactionState.faceTangentV;
-    const tangentSign = useU ? Math.sign(dragU) || 1 : Math.sign(dragV) || 1;
-    const rotationWorld = interactionState.faceNormal
-      .clone()
-      .cross(chosenTangent)
-      .normalize()
-      .multiplyScalar(tangentSign);
-    const rootQuaternion = new THREE.Quaternion();
-    cubeRoot.getWorldQuaternion(rootQuaternion);
-
-    let chosenAxis = "x";
-    let chosenSign = 1;
-    let bestDot = -Infinity;
-
-    Object.entries(cubeLocalAxes).forEach(([axisName, axisVector]) => {
-      const worldAxis = axisVector.clone().applyQuaternion(rootQuaternion).normalize();
-      const alignment = rotationWorld.dot(worldAxis);
-      if (Math.abs(alignment) > bestDot) {
-        bestDot = Math.abs(alignment);
-        chosenAxis = axisName;
-        chosenSign = alignment >= 0 ? 1 : -1;
-      }
-    });
-
-    return {
-      axis: chosenAxis,
-      layer: cubie.userData.grid[chosenAxis],
-      direction: chosenSign,
-    };
-  }
-
-  function collectLayer(axis, layer) {
-    return cubies.filter((cubie) => cubie.userData.grid[axis] === layer);
-  }
-
-  function showSolvedState() {
-    stage.classList.add("is-solved");
-    if (statusLabel) {
-      statusLabel.dataset.statusKey = "cube.solved";
-      statusLabel.textContent = getTranslation("cube.solved");
-      statusLabel.classList.add("is-visible");
-    }
-    solvedToastTimer = 2.8;
-  }
-
-  function clearSolvedState({ preserveText = false } = {}) {
-    stage.classList.remove("is-solved");
-    solvedToastTimer = 0;
-    if (statusLabel && !preserveText) {
-      delete statusLabel.dataset.statusKey;
-      statusLabel.textContent = "";
-      statusLabel.classList.remove("is-visible");
-    }
-  }
-
-  function isCubeSolved() {
-    return cubies.every((cubie) => {
-      const initial = initialCubieStates.get(cubie.uuid);
-      const sameGrid =
-        cubie.userData.grid.x === initial.grid.x &&
-        cubie.userData.grid.y === initial.grid.y &&
-        cubie.userData.grid.z === initial.grid.z;
-      const sameRotation = cubie.quaternion.angleTo(initial.quaternion) < 0.001;
-      return sameGrid && sameRotation;
-    });
-  }
-
-  function clearPreviewLayer() {
-    if (!previewLayer) {
-      return;
-    }
-
-    previewLayer.members.forEach((cubie) => {
-      cubie.scale.setScalar(1);
-      cubie.userData.body.material.emissiveIntensity = 0;
-      cubie.userData.stickers.forEach((sticker) => {
-        sticker.material.emissiveIntensity = 0;
-      });
-    });
-
-    previewLayer = null;
-  }
-
-  function setPreviewLayer(axis, layer) {
-    if (
-      previewLayer &&
-      previewLayer.axis === axis &&
-      previewLayer.layer === layer
-    ) {
-      return;
-    }
-
-    clearPreviewLayer();
-
-    const members = collectLayer(axis, layer);
-    members.forEach((cubie) => {
-      cubie.scale.setScalar(1.03);
-      cubie.userData.body.material.emissive.set("#1a00ff");
-      cubie.userData.body.material.emissiveIntensity = 0.08;
-      cubie.userData.stickers.forEach((sticker) => {
-        sticker.material.emissive.set("#2f2fff");
-        sticker.material.emissiveIntensity = 0.14;
-      });
-    });
-
-    previewLayer = { axis, layer, members };
-  }
-
-  function resetTempGroup() {
-    tempGroup.rotation.set(0, 0, 0);
-    tempGroup.position.set(0, 0, 0);
-    tempGroup.quaternion.identity();
-  }
-
-  function startTurn(axis, layer, direction, source = "user") {
-    if (activeTurn) {
-      return false;
-    }
-
-    const members = collectLayer(axis, layer);
-    if (members.length === 0) {
-      return false;
-    }
-
-    clearPreviewLayer();
-    resetTempGroup();
-    cubeRoot.add(tempGroup);
-    members.forEach((cubie) => tempGroup.attach(cubie));
-
-    activeTurn = {
-      axis,
-      layer,
-      direction,
-      source,
-      angle: 0,
-      targetAngle: direction * TURN_ANGLE,
-      members,
-    };
-
-    canvas.classList.add("is-turning");
-    return true;
-  }
-
-  function snapCubie(cubie) {
-    cubie.position.set(
-      Math.round(cubie.position.x / GRID_SPACING) * GRID_SPACING,
-      Math.round(cubie.position.y / GRID_SPACING) * GRID_SPACING,
-      Math.round(cubie.position.z / GRID_SPACING) * GRID_SPACING,
-    );
-    cubie.userData.grid = {
-      x: Math.round(cubie.position.x / GRID_SPACING),
-      y: Math.round(cubie.position.y / GRID_SPACING),
-      z: Math.round(cubie.position.z / GRID_SPACING),
-    };
-  }
-
-  function finishTurn() {
-    const { axis, direction, layer, members, source, targetAngle } = activeTurn;
-    tempGroup.rotation[axis] = targetAngle;
-    tempGroup.updateMatrixWorld(true);
-
-    members.forEach((cubie) => {
-      cubeRoot.attach(cubie);
-      snapCubie(cubie);
-    });
-
-    resetTempGroup();
-    if (source !== "solve") {
-      moveHistory.push({ axis, layer, direction });
-    } else if (pendingMoves.length === 0) {
-      isSolving = false;
-    }
-    activeTurn = null;
-    canvas.classList.remove("is-turning");
-    if (isCubeSolved()) {
-      showSolvedState();
-    }
-  }
-
-  function queueScramble(length = SCRAMBLE_LENGTH) {
-    const axes = ["x", "y", "z"];
-    const moves = [];
-    let lastAxis = null;
-
-    for (let i = 0; i < length; i += 1) {
-      const availableAxes = axes.filter((axis) => axis !== lastAxis);
-      const axis = availableAxes[Math.floor(Math.random() * availableAxes.length)];
-      const layer = [-1, 0, 1][Math.floor(Math.random() * 3)];
-      const direction = Math.random() > 0.5 ? 1 : -1;
-      moves.push({ axis, layer, direction });
-      lastAxis = axis;
-    }
-
-    return moves;
-  }
-
-  function invertMoves(moves) {
-    return [...moves].reverse().map((move) => ({
-      axis: move.axis,
-      layer: move.layer,
-      direction: move.direction * -1,
-      source: "solve",
-    }));
-  }
-
-  function applyNextPendingMove() {
-    if (activeTurn || pendingMoves.length === 0) {
-      return;
-    }
-
-    const nextMove = pendingMoves.shift();
-    startTurn(
-      nextMove.axis,
-      nextMove.layer,
-      nextMove.direction,
-      nextMove.source ?? "queue",
-    );
-  }
-
-  function resetCubeState() {
-    pendingMoves = [];
-    activeTurn = null;
-    interaction = null;
-    moveHistory = [];
-    isSolving = false;
-    clearPreviewLayer();
-    clearSolvedState();
-    canvas.classList.remove("is-turning");
-    resetTempGroup();
-
-    cubies.forEach((cubie) => {
-      cubeRoot.attach(cubie);
-      const state = initialCubieStates.get(cubie.uuid);
-      cubie.position.copy(state.position);
-      cubie.quaternion.copy(state.quaternion);
-      cubie.userData.grid = { ...state.grid };
-    });
-
-    orbitYaw = -0.55;
-    orbitPitch = 0.55;
-    targetYaw = orbitYaw;
-    targetPitch = orbitPitch;
-    autoRotateTimer = 0;
-  }
-
-  function scrambleCube() {
-    if (activeTurn) {
-      return;
-    }
-
-    clearSolvedState();
-    pendingMoves = queueScramble().map((move) => ({
-      ...move,
-      source: "scramble",
-    }));
-    moveHistory = [];
-    isSolving = false;
-    autoRotateTimer = 0;
-  }
-
-  function solveCube() {
-    if (activeTurn || pendingMoves.length > 0 || moveHistory.length === 0) {
-      return;
-    }
-
-    clearSolvedState();
-    pendingMoves = invertMoves(moveHistory);
-    moveHistory = [];
-    isSolving = true;
-    autoRotateTimer = 0;
-  }
-
-  function onPointerDown(event) {
-    if (activeTurn) {
-      return;
-    }
-
-    const hit = pickSticker(event.clientX, event.clientY);
-    interaction = {
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      startY: event.clientY,
-      lastX: event.clientX,
-      lastY: event.clientY,
-      mode: hit ? "pending-face" : "orbit",
-      hit,
-    };
-
-    if (hit) {
-      const faceData = getFaceInteractionData(hit);
-      interaction.facePlane = faceData.plane;
-      interaction.faceStartPoint = faceData.startPoint;
-      interaction.faceNormal = faceData.normal;
-      interaction.faceTangentU = faceData.tangentU;
-      interaction.faceTangentV = faceData.tangentV;
-    }
-
-    canvas.setPointerCapture(event.pointerId);
-    autoRotateTimer = 0;
-  }
-
-  function onPointerMove(event) {
-    if (!interaction || interaction.pointerId !== event.pointerId) {
-      return;
-    }
-
-    const dx = event.clientX - interaction.startX;
-    const dy = event.clientY - interaction.startY;
-    const totalDistance = Math.hypot(dx, dy);
-
-    if (interaction.mode === "pending-face") {
-      if (totalDistance < 10) {
-        return;
-      }
-
-      const move = resolveTurnFromGesture(
-        interaction,
-        event.clientX,
-        event.clientY,
-      );
-      if (move) {
-        setPreviewLayer(move.axis, move.layer);
-      } else {
-        clearPreviewLayer();
-      }
-      if (move && startTurn(move.axis, move.layer, move.direction, "user")) {
-        pendingMoves = [];
-        isSolving = false;
-        clearSolvedState();
-        clearInteraction(event.pointerId);
-      }
-      return;
-    }
-
-    targetYaw += (event.clientX - interaction.lastX) * ORBIT_SENSITIVITY;
-    targetPitch += (event.clientY - interaction.lastY) * ORBIT_SENSITIVITY;
-    targetPitch = THREE.MathUtils.clamp(targetPitch, -1.1, 1.1);
-    interaction.lastX = event.clientX;
-    interaction.lastY = event.clientY;
-    clearPreviewLayer();
-  }
-
-  function clearInteraction(pointerId) {
-    if (!interaction || interaction.pointerId !== pointerId) {
-      return;
-    }
-
-    if (canvas.hasPointerCapture(pointerId)) {
-      canvas.releasePointerCapture(pointerId);
-    }
-    clearPreviewLayer();
-    interaction = null;
-  }
-
-  function onPointerUp(event) {
-    clearInteraction(event.pointerId);
-  }
-
-  function animate() {
-    const delta = Math.min(clock.getDelta(), 0.033);
-
-    orbitYaw += (targetYaw - orbitYaw) * Math.min(1, delta * 8);
-    orbitPitch += (targetPitch - orbitPitch) * Math.min(1, delta * 8);
-    cubeRoot.rotation.y = orbitYaw;
-    cubeRoot.rotation.x = orbitPitch;
-
-    if (activeTurn) {
-      activeTurn.angle = THREE.MathUtils.damp(
-        activeTurn.angle,
-        activeTurn.targetAngle,
-        5.8,
-        delta,
-      );
-      tempGroup.rotation[activeTurn.axis] = activeTurn.angle;
-
-      if (Math.abs(activeTurn.targetAngle - activeTurn.angle) < 0.008) {
-        finishTurn();
-      }
-    } else if (pendingMoves.length > 0) {
-      applyNextPendingMove();
-    } else if (!interaction) {
-      autoRotateTimer += delta;
-      if (autoRotateTimer > 3.8) {
-        targetYaw += delta * 0.28;
-      }
-    }
-
-    if (solvedToastTimer > 0) {
-      solvedToastTimer = Math.max(0, solvedToastTimer - delta);
-      if (solvedToastTimer === 0 && statusLabel) {
-        statusLabel.classList.remove("is-visible");
-      }
-    }
-
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-  }
-
-  function setGuideOpen(isOpen) {
-    if (!guideToggle || !guidePanel) {
-      return;
-    }
-
-    guidePanel.hidden = !isOpen;
-    guideToggle.setAttribute("aria-expanded", String(isOpen));
-  }
-
-  function toggleGuide() {
-    if (!guidePanel) {
-      return;
-    }
-
-    setGuideOpen(guidePanel.hidden);
-  }
-
-  function onDocumentPointerDown(event) {
-    if (!guidePanel || !guideToggle || guidePanel.hidden) {
-      return;
-    }
-
-    const target = event.target;
-    if (guidePanel.contains(target) || guideToggle.contains(target)) {
-      return;
-    }
-
-    setGuideOpen(false);
-  }
-
-  scrambleButton?.addEventListener("click", scrambleCube);
-  solveButton?.addEventListener("click", solveCube);
-  resetButton?.addEventListener("click", resetCubeState);
-  guideToggle?.addEventListener("click", toggleGuide);
-  canvas.addEventListener("pointerdown", onPointerDown);
-  canvas.addEventListener("pointermove", onPointerMove);
-  canvas.addEventListener("pointerup", onPointerUp);
-  canvas.addEventListener("pointercancel", onPointerUp);
-  canvas.addEventListener("lostpointercapture", onPointerUp);
-  document.addEventListener("pointerdown", onDocumentPointerDown);
-  window.addEventListener("resize", setRendererSize);
-
-  setRendererSize();
-  setGuideOpen(false);
-  scrambleCube();
-  animate();
-}
-
-if (carouselTrack && carouselDots) {
   const slides = Array.from(carouselTrack.querySelectorAll(".carousel__slide"));
   const AUTOPLAY_MS = 30000;
   let currentSlide = 0;
@@ -998,7 +330,11 @@ if (carouselTrack && carouselDots) {
   restartAutoplay();
 }
 
-if (modalTriggers.length > 0) {
+function initModals() {
+  if (modalTriggers.length === 0) {
+    return;
+  }
+
   let activeModal = null;
 
   function setModalOpen(modal, isOpen) {
@@ -1036,4 +372,17 @@ if (modalTriggers.length > 0) {
   });
 }
 
+if (cubeRoot) {
+  mountCubeComponent(cubeRoot);
+  const cubeApi = initCube({ getTranslation });
+  cubeStatusLabel = cubeApi.statusLabel;
+}
+
+langToggle?.addEventListener("click", () => {
+  const nextLanguage = currentLanguage === "pt-BR" ? "en" : "pt-BR";
+  applyTranslations(nextLanguage);
+});
+
+initCarousel();
+initModals();
 applyTranslations(currentLanguage);

@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   position: relative;
   min-height: 100vh;
@@ -137,6 +141,10 @@ a {
   width: min(100%, 1100px);
   margin: 0 auto;
   padding: 72px 0 40px;
+}
+
+.page-section {
+  scroll-margin-top: 32px;
 }
 
 .page-title {

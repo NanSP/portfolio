@@ -1,0 +1,48 @@
+<section class="hero-cube" aria-labelledby="cube-invite">
+  <p class="hero-cube__invite" id="cube-invite" data-i18n="cube.invite">
+    Want a quick challenge? Try solving the cube.
+  </p>
+  <div class="cube-stage" id="cube-stage">
+    <div class="cube-stage__glow" aria-hidden="true"></div>
+    <button
+      class="cube-stage__guide-toggle"
+      id="cube-guide-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="cube-guide"
+      aria-label="Show cube guide"
+      data-i18n-aria-label="cube.guideToggleAria"
+    >
+      ?
+    </button>
+    <div class="cube-stage__guide" id="cube-guide" hidden aria-live="polite">
+      <p class="cube-stage__guide-title" data-i18n="cube.guideTitle">How to play</p>
+      <p data-i18n="cube.guideLine1">Drag outside the cube to orbit the camera.</p>
+      <p data-i18n="cube.guideLine2">Swipe across a face to rotate that layer.</p>
+      <p data-i18n="cube.guideLine3">Use Scramble to mix it and Reset to return to the start.</p>
+    </div>
+    <canvas
+      class="cube-stage__canvas"
+      id="cube-canvas"
+      aria-label="Interactive 3D Rubik's cube"
+      data-i18n-aria-label="cube.canvasAria"
+    ></canvas>
+    <p class="cube-stage__status" id="cube-status" aria-live="polite"></p>
+    <div class="cube-stage__controls">
+      <button class="cube-stage__button" id="cube-scramble" type="button" data-i18n="cube.scramble">
+        Scramble
+      </button>
+      <button class="cube-stage__button" id="cube-solve" type="button" data-i18n="cube.solve">
+        Solve
+      </button>
+      <button
+        class="cube-stage__button cube-stage__button--ghost"
+        id="cube-reset"
+        type="button"
+        data-i18n="cube.reset"
+      >
+        Reset
+      </button>
+    </div>
+  </div>
+</section>
