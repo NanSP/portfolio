@@ -267,7 +267,7 @@ function initCarousel() {
   }
 
   const slides = Array.from(carouselTrack.querySelectorAll(".carousel__slide"));
-  const AUTOPLAY_MS = 30000;
+  const AUTOPLAY_MS = 5000;
   let currentSlide = 0;
   let autoplayId = null;
 
